@@ -1,0 +1,48 @@
+volumes:
+  postgres-db:
+
+services:
+  node-server:
+    container_name: node-server
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    ports:
+      - 3000:3000
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - ./src:/home/node/app/src
+    command: sh -c "npx prisma migrate deploy --schema ./prisma/schema.prisma && npm run start:dev"
+
+  db:
+    container_name: db
+    image: postgres:17-alpine
+    restart: always
+    shm_size: 128mb
+    env_file:
+      - .env
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+    volumes:
+      - postgres-db:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    user: postgres
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -d postgres']
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  adminer:
+    container_name: adminer
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
