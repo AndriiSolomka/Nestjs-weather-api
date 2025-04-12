@@ -17,7 +17,7 @@ model WeatherData {
   weather_id Int      @id @default(autoincrement())
   lat        Float
   lon        Float
-  part       String
+  exclude    String
   data       Json
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
