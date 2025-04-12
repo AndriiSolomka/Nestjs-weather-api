@@ -66,7 +66,7 @@ describe('WeatherService', () => {
         data: JSON.stringify(mockWeatherData),
       });
 
-      const result = await service.unique(dto);
+      const result = await service.upsertWeather(dto);
 
       expect(mockPrismaService.weatherData.findFirst).toHaveBeenCalledWith({
         where: { lat: dto.lat, lon: dto.lon, exclude: dto.part },
@@ -101,7 +101,7 @@ describe('WeatherService', () => {
         data: JSON.stringify(mockWeatherData),
       });
 
-      const result = await service.unique(dto);
+      const result = await service.upsertWeather(dto);
 
       expect(mockPrismaService.weatherData.findFirst).toHaveBeenCalledWith({
         where: { lat: dto.lat, lon: dto.lon, exclude: dto.part },
