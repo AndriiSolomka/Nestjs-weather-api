@@ -1,5 +1,5 @@
-import { IsEnum, IsNotEmpty, IsNumber } from 'class-validator';
-import { WeatherTimeframe } from 'src/constants/enums/weather';
+import { IsNotEmpty, IsNumber, IsString, Validate } from 'class-validator';
+import { IsValidPart } from 'src/common/validators/is-valid-part.validator';
 
 export class CreateWeatherDto {
   @IsNumber()
@@ -10,7 +10,8 @@ export class CreateWeatherDto {
   @IsNotEmpty()
   lon: number;
 
-  @IsEnum(WeatherTimeframe)
   @IsNotEmpty()
+  @IsString()
+  @Validate(IsValidPart)
   part: string;
 }
