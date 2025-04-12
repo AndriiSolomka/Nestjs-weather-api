@@ -26,7 +26,7 @@ export class WeatherService {
     return await this.fetch.fetchData<IWeatherResponse>(url);
   }
 
-  async unique(dto: CreateWeatherDto): Promise<{ message: string }> {
+  async upsertWeather(dto: CreateWeatherDto): Promise<{ message: string }> {
     const weatherData = await this.fetchWeather(dto);
     const existing = await this.findOneByCoordinates(dto);
 

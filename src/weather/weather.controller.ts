@@ -17,8 +17,8 @@ export class WeatherController {
   constructor(private readonly weatherService: WeatherService) {}
 
   @Post()
-  async create(@Body() createWeatherDto: CreateWeatherDto) {
-    return await this.weatherService.unique(createWeatherDto);
+  async upsertWeather(@Body() createWeatherDto: CreateWeatherDto) {
+    return await this.weatherService.upsertWeather(createWeatherDto);
   }
 
   @UseInterceptors(SelectCurrentWeatherInterceptor)
