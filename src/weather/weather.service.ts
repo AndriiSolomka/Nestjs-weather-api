@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateWeatherDto } from './dto/create-weather.dto';
-import { PrismaService } from 'src/prisma/prisma.service';
-import { FetchService } from 'src/fetch/fetch.service';
+import { PrismaService } from '../prisma/prisma.service';
+import { FetchService } from '../fetch/fetch.service';
 import { ConfigService } from '@nestjs/config';
 import { IWeatherResponse } from 'src/constants/interfaces/weather';
 import { WeatherData } from '@prisma/client';
