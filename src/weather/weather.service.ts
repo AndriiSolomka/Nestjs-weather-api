@@ -5,6 +5,7 @@ import { FetchService } from 'src/fetch/fetch.service';
 import { ConfigService } from '@nestjs/config';
 import { IWeatherResponse } from 'src/constants/interfaces/weather';
 import { WeatherData } from '@prisma/client';
+import { UpdateWeatherDto } from './dto/update-weather.dto';
 
 @Injectable()
 export class WeatherService {
@@ -30,7 +31,9 @@ export class WeatherService {
     const existing = await this.findOneByCoordinates(dto);
 
     if (existing) {
-      await this.update(existing.weather_id, JSON.stringify(weatherData));
+      await this.update(existing.weather_id, {
+        data: JSON.stringify(weatherData),
+      });
     } else {
       await this.create(dto, weatherData);
     }
@@ -70,7 +73,7 @@ export class WeatherService {
     });
   }
 
-  async update(id: number, dto: string): Promise<WeatherData> {
+  async update(id: number, dto: UpdateWeatherDto): Promise<WeatherData> {
     return await this.prisma.weatherData.update({
       where: { weather_id: id },
       data: dto,
